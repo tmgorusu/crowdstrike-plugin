@@ -45,5 +45,6 @@ export function useScan(host: HTMLElement) {
     };
   }, [host, rescan]);
 
-  return { scan, rescan, focusId, setFocusId };
+  const current = useCallback(() => scanRef.current, []);
+  return { scan, rescan, current, focusId, setFocusId };
 }

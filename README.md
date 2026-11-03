@@ -23,6 +23,7 @@ The server works without an API key and answers from built-in guidance. For AI a
 | --- | --- |
 | Collapsed | Floating button. Its badge shows how many required fields are still missing, or ✓. |
 | Open | Greeting, the page's form name, field and section counts, quick actions ("Explain this form", "What goes in this field?", "What am I missing?", "Review my entries"), and suggested questions built from the detected fields. |
+| Inline guidance | While a field is in use, a short card beside the form shows a one-line headline, up to three steps, and "More" for detail. It refreshes shortly after focus, after a ~700 ms pause in typing, and on committed changes. If the service is slow (4 s timeout), down, or returns something unexpected, the card says so quietly and the form keeps working. After repeated failures it stops asking for a minute. Answers are cached in memory for 5 minutes. Without a free column beside the form it shrinks to the chip below. |
 | Field help | Focus any field and a small **What goes here?** chip appears beside it. Answers show what to enter, an example, why it's needed, where the value officially comes from, jurisdiction caveats, and what the assistant still needs to know. |
 | Review | Required-field progress, missing required fields, errors the site is showing, inconsistencies (dates out of order, itemized amounts over the total, bad ZIP, email or phone), and a pre-submit checklist. Click an item to scroll to and highlight that field. |
 
@@ -32,6 +33,9 @@ The server works without an API key and answers from built-in guidance. For AI a
 extension/src/content/scanner.ts   DOM form recognition (read-only)
 extension/src/content/review.ts    deterministic pre-submit review (local, no network)
 extension/src/content/useScan.ts   MutationObserver + input/focus tracking, debounced rescans
+extension/src/content/triggers.ts  when inline guidance refreshes (focus, typing pause, committed change)
+extension/src/guidance/            guidance service: timeout, typed failures, breaker, short-lived cache, and the
+                                   source adapter (localSource.ts = server/ today; the hub client replaces it)
 extension/src/content/ui/          React panel, rendered in a shadow root (styles can't leak either way)
 extension/src/background.ts        service worker; the only code that calls the server
 server/                            Node http server: /api/copilot/assist + the demo form
@@ -56,7 +60,8 @@ demo/                              fictional multi-step PAC form with deliberate
 
 ```bash
 npm run watch        # rebuild on change (reload the extension in chrome://extensions)
-npm test             # scanner, review, offline answers, prompt and sanitizer tests
+npm test             # scanner, review, offline answers, prompt, sanitizer, guidance client and trigger tests
+STRIKE_E2E_BASE=http://localhost:3000 npx vitest run tests/guidance.e2e.test.ts   # against a running server
 npm run typecheck
 ```
 

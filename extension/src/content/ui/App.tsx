@@ -2,7 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { AssistRequest, AssistResponse, DetectedField, ExtensionMessage, ExtensionReply } from "../../../../shared/contract";
 import { reviewForm, type ReviewItem } from "../review";
 import { useScan } from "../useScan";
+import { useGuidance } from "../useGuidance";
 import { fieldIdOf, type ScanResult } from "../scanner";
+import { Avatar } from "./Avatar";
+import { GuidanceCard } from "./GuidanceCard";
 
 type Msg =
   | { role: "user"; text: string }
@@ -23,7 +26,9 @@ async function ask<T>(message: ExtensionMessage): Promise<ExtensionReply<T>> {
 const KIND_LABEL: Record<string, string> = { text: "Text", email: "Email", tel: "Phone", number: "Number", date: "Date", url: "Web address", textarea: "Long text", select: "Dropdown", checkbox: "Checkbox", radio: "Choice", other: "Input" };
 
 export function App({ host, onToggleRequest }: { host: HTMLElement; onToggleRequest: (fn: () => void) => () => void }) {
-  const { scan, rescan, focusId, setFocusId } = useScan(host);
+  const { scan, rescan, current, focusId, setFocusId } = useScan(host);
+  const guidance = useGuidance(host, current, rescan);
+  const [dismissed, setDismissed] = useState<ReadonlySet<string>>(() => new Set());
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"chat" | "review">("chat");
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -124,7 +129,14 @@ export function App({ host, onToggleRequest }: { host: HTMLElement; onToggleRequ
 
   return (
     <div className="root">
-      {chipFor && scan && <FieldChip scan={scan} id={chipFor} panelOpen={open} onAsk={() => askAboutField(chipFor)} />}
+      {chipFor && scan && !dismissed.has(chipFor) && (
+        <GuidanceCard
+          scan={scan} id={chipFor} panelOpen={open}
+          state={guidance.state?.fieldId === chipFor ? guidance.state : undefined}
+          onAsk={() => askAboutField(chipFor)} onRetry={guidance.retry}
+          onDismiss={() => setDismissed((d) => new Set(d).add(chipFor))}
+        />
+      )}
       {highlight && <div className="highlight" style={{ left: highlight.left - 6, top: highlight.top - 6, width: highlight.width + 12, height: highlight.height + 12 }} />}
 
       {open && (
@@ -224,19 +236,6 @@ export function App({ host, onToggleRequest }: { host: HTMLElement; onToggleRequ
   );
 }
 
-function Avatar({ large }: { large?: boolean }) {
-  const s = large ? 30 : 26;
-  return (
-    <span className={`avatar${large ? " lg" : ""}`} aria-hidden>
-      <svg viewBox="0 0 32 32" width={s} height={s}>
-        <path d="M16 4l3.4 7.6L27 13l-5.8 5.2L22.8 26 16 22l-6.8 4 1.6-7.8L5 13l7.6-1.4z" fill="#F4B740" />
-        <circle cx="12.8" cy="15.6" r="1.4" fill="#13294B" /><circle cx="19.2" cy="15.6" r="1.4" fill="#13294B" />
-        <path d="M13 19c1.8 1.4 4.2 1.4 6 0" stroke="#13294B" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-      </svg>
-    </span>
-  );
-}
-
 function Answer({ data, field, onLocate, onFollow }: { data: AssistResponse; field?: DetectedField; onLocate: (id: string) => void; onFollow: (q: string) => void }) {
   const rows: [string, string | undefined][] = [
     ["What to enter", data.whatGoesHere],
@@ -297,29 +296,5 @@ function ReviewPane({ scan, review, onLocate, onRescan, onAsk }: { scan: ScanRes
         </ul>
       </div>
     </div>
-  );
-}
-
-function FieldChip({ scan, id, panelOpen, onAsk }: { scan: ScanResult; id: string; panelOpen: boolean; onAsk: () => void }) {
-  const [rect, setRect] = useState<DOMRect | null>(null);
-  useEffect(() => {
-    const els = scan.elements.get(id);
-    const el = els && (els.length > 1 ? (els[0].closest("fieldset, [role=radiogroup]") as HTMLElement) ?? els[0] : els[0]);
-    if (!el) { setRect(null); return; }
-    const update = () => setRect(el.isConnected ? el.getBoundingClientRect() : null);
-    update();
-    window.addEventListener("scroll", update, true);
-    window.addEventListener("resize", update);
-    return () => { window.removeEventListener("scroll", update, true); window.removeEventListener("resize", update); };
-  }, [scan, id]);
-  if (!rect || rect.bottom < 0 || rect.top > window.innerHeight) return null;
-  const W = 112;
-  // Prefer the right edge of the field; flip above it if the right side would leave the viewport.
-  const right = rect.right + 8 + W < window.innerWidth;
-  const style = right ? { left: rect.right + 8, top: rect.top + Math.max(0, rect.height / 2 - 13) } : { left: Math.max(8, rect.right - W), top: Math.max(8, rect.top - 32) };
-  return (
-    <button className={`chip-float${panelOpen ? " quiet" : ""}`} style={style} onMouseDown={(e) => e.preventDefault()} onClick={onAsk} aria-label="Ask Strike what goes in this field">
-      <Avatar /> What goes here?
-    </button>
   );
 }

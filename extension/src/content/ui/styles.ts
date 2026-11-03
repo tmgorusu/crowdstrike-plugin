@@ -123,5 +123,23 @@ button:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); o
 }
 .chip-float .avatar { width: 20px; height: 20px; } .chip-float .avatar svg { width: 16px; height: 16px; }
 .chip-float.quiet { opacity: .9; }
+
+.guide {
+  position: fixed; z-index: 1; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--navy); border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(16,24,40,.14); padding: 8px 10px; font-size: 12.5px; max-height: min(320px, calc(100vh - 16px)); overflow-y: auto;
+}
+.guide.verify { border-left-color: #E0A100; }
+.guide.quiet { border-left-color: var(--line); box-shadow: 0 2px 8px rgba(16,24,40,.08); }
+.guide.dim { opacity: .9; }
+.guide-head { display: flex; align-items: flex-start; gap: 7px; }
+.guide-head .avatar { width: 20px; height: 20px; } .guide-head .avatar svg { width: 16px; height: 16px; }
+.guide-title { flex: 1; margin: 1px 0 0; font-weight: 600; line-height: 1.35; }
+.guide.quiet .guide-title { font-weight: 500; color: var(--muted); }
+.guide-steps { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 3px; }
+.guide-detail { margin: 6px 0 0; color: var(--muted); }
+.guide-foot { display: flex; align-items: center; gap: 10px; margin-top: 7px; }
+.guide-foot .link { font-size: 12px; white-space: nowrap; }
+.guide-src { margin-left: auto; font-size: 11px; color: var(--muted); text-align: right; }
+.guide .typing { padding: 6px 0 0 27px; }
 .highlight { position: fixed; pointer-events: none; border: 3px solid var(--gold); border-radius: 8px; box-shadow: 0 0 0 4000px rgba(19,41,75,.12); z-index: 0; }
 `;

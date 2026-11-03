@@ -1,4 +1,7 @@
 import type { AssistRequest, AssistResponse, ExtensionMessage, ExtensionReply } from "../../shared/contract";
+import { localServerSource } from "./guidance/localSource";
+import { createGuidanceService } from "./guidance/service";
+import type { GuidanceMessage } from "./guidance/types";
 
 // The service worker is the only part of the extension that talks to the backend, so the
 // content script never needs network access and no API key ever ships in extension code.
@@ -14,7 +17,10 @@ async function call<T>(path: string, init?: RequestInit, timeoutMs = 40000): Pro
   return body as T;
 }
 
-async function handle(message: ExtensionMessage): Promise<ExtensionReply<unknown>> {
+const guidance = createGuidanceService(localServerSource(apiBase));
+
+async function handle(message: ExtensionMessage | GuidanceMessage): Promise<ExtensionReply<unknown>> {
+  if (message.type === "guidance:field") return { ok: true, data: await guidance(message.payload) };
   try {
     if (message.type === "copilot:health") return { ok: true, data: await call<{ ok: boolean; ai: boolean }>("/api/copilot/assist", undefined, 5000) };
     if (message.type === "copilot:assist") {
@@ -35,7 +41,7 @@ async function handle(message: ExtensionMessage): Promise<ExtensionReply<unknown
   }
 }
 
-chrome.runtime.onMessage.addListener((message: ExtensionMessage, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: ExtensionMessage | GuidanceMessage, sender, sendResponse) => {
   if (sender.id !== chrome.runtime.id) return false;
   void handle(message).then(sendResponse);
   return true; // async response
