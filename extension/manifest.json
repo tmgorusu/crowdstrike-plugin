@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Strike — PAC Compliance Copilot",
+  "short_name": "Strike",
+  "version": "0.1.0",
+  "description": "Explains what belongs in each field of your PAC compliance forms. Never fills or submits anything for you.",
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": { "default_title": "Open Strike compliance copilot", "default_icon": { "16": "icons/icon16.png", "48": "icons/icon48.png" } },
+  "background": { "service_worker": "background.js" },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/copilot-demo/*",
+        "http://127.0.0.1/copilot-demo/*",
+        "https://webforms.fec.gov/*",
+        "https://ethics.state.tx.us/*",
+        "https://*.ethics.state.tx.us/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

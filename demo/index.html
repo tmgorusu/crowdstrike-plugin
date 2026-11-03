@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statement of Organization — General-Purpose Committee | Demo State Ethics Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="fictional-banner" role="note">
+  Demo State Ethics Portal — FICTIONAL, for testing only. No data is transmitted anywhere.
+</div>
+
+<header class="portal-header">
+  <div class="seal" aria-hidden="true">DSEC</div>
+  <div>
+    <div class="agency">Demo State Ethics Commission</div>
+    <div class="subtitle">Electronic Filing System &middot; Campaign Finance Division</div>
+  </div>
+  <nav class="top-links" aria-label="Portal">
+    <a href="#">My Filings</a> | <a href="#">Help</a> | <a href="#">Sign Out</a>
+  </nav>
+</header>
+
+<div class="page">
+  <main id="main" class="main-col">
+    <h1>Statement of Organization — General-Purpose Committee</h1>
+    <p class="form-id">Form GPAC-SO (Rev. 09/2014) &middot; Filer ID: <strong>00099999</strong> (demo)</p>
+
+    <ol class="step-nav" id="stepNav">
+      <li><button type="button" data-step="1" class="active">Step 1 Committee</button></li>
+      <li><button type="button" data-step="2">Step 2 Officers</button></li>
+      <li><button type="button" data-step="3">Step 3 Banking</button></li>
+      <li><button type="button" data-step="4">Step 4 First Report</button></li>
+    </ol>
+
+    <form id="soForm" action="#" method="post" novalidate autocomplete="off">
+      <!-- Scanner should ignore these two -->
+      <input type="hidden" name="csrf_token" id="csrf_token" value="demo-7f3a9c2e1b8d4f60a5e2">
+      <div class="hp-wrap" aria-hidden="true">
+        <label for="website_url">Leave this field blank</label>
+        <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- ================= STEP 1 ================= -->
+      <section class="step" id="step1" data-step="1">
+        <h2>Part 1 &mdash; Committee Information</h2>
+        <p class="instructions">Complete all fields marked with an asterisk (<span class="req">*</span>). Enter the committee name exactly as it will appear on all reports and political advertising.</p>
+
+        <div class="field">
+          <label for="committee_name">Committee Name <span class="req">*</span></label>
+          <input type="text" id="committee_name" name="committee_name" required aria-describedby="committee_name_help">
+          <div class="help" id="committee_name_help">Full legal name of the committee. Do not abbreviate.</div>
+        </div>
+
+        <div class="field">
+          <label for="committee_acronym">Committee Acronym</label>
+          <input type="text" id="committee_acronym" name="committee_acronym" maxlength="20">
+          <small>Optional. Up to 20 characters.</small>
+        </div>
+
+        <div class="field">
+          <label for="committee_type">Committee Type <span class="req">*</span></label>
+          <select id="committee_type" name="committee_type" required>
+            <option value="">-- Select --</option>
+            <option value="GPAC">General-Purpose Committee (GPAC)</option>
+            <option value="SPAC">Specific-Purpose Committee</option>
+            <option value="SSF">Separate Segregated Fund</option>
+            <option value="IEONLY">Nonconnected / Independent Expenditure-Only</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="date_created">Date Committee Was Created <span class="req">*</span></label>
+          <input type="date" id="date_created" name="date_created" required>
+        </div>
+
+        <h3>Committee Mailing Address</h3>
+        <!-- Legacy table layout: labels are only preceding <td> text -->
+        <table class="legacy-table" role="presentation">
+          <tr>
+            <td class="lbl">Street Address <span class="req">*</span></td>
+            <td><input type="text" name="addr_street" id="addr_street" size="40" required></td>
+          </tr>
+          <tr>
+            <td class="lbl">Suite / Unit</td>
+            <td><input type="text" name="addr_suite" size="10"></td>
+          </tr>
+          <tr>
+            <td class="lbl">City <span class="req">*</span></td>
+            <td><input type="text" name="addr_city" id="addr_city" size="25" aria-required="true"></td>
+          </tr>
+          <tr>
+            <td class="lbl">State <span class="req">*</span></td>
+            <td>
+              <select name="addr_state" id="addr_state" aria-required="true">
+                <option value="">--</option>
+                <option value="TX">Texas</option>
+                <option value="OK">Oklahoma</option>
+                <option value="LA">Louisiana</option>
+                <option value="NM">New Mexico</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="NY">New York</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="lbl">ZIP Code <span class="req">*</span></td>
+            <td><input type="text" name="addr_zip" id="addr_zip" size="10" inputmode="numeric" data-validate="zip" required></td>
+          </tr>
+        </table>
+
+        <h3>Contact</h3>
+        <div class="field">
+          <label for="committee_email">Committee Email <span class="req">*</span></label>
+          <input type="email" id="committee_email" name="committee_email" required data-validate="email" aria-describedby="email_help">
+          <div class="help" id="email_help">Official notices from the Commission will be sent to this address.</div>
+        </div>
+
+        <div class="field">
+          <label for="committee_phone">Phone</label>
+          <input type="tel" id="committee_phone" name="committee_phone" placeholder="(555) 555-0100">
+        </div>
+
+        <!-- aria-label only -->
+        <div class="field">
+          <span class="pseudo-label">Fax (if any)</span>
+          <input type="tel" name="committee_fax" aria-label="Committee fax number">
+        </div>
+
+        <!-- placeholder only -->
+        <div class="field">
+          <input type="url" name="committee_website" placeholder="Committee website (https://...)">
+        </div>
+
+        <!-- aria-labelledby pointing at a span -->
+        <div class="field">
+          <span id="lbl_ein" class="pseudo-label">Federal Employer Identification Number (EIN)</span>
+          <input type="text" name="committee_ein" aria-labelledby="lbl_ein" placeholder="XX-XXXXXXX">
+          <small>Leave blank if the committee has not obtained an EIN.</small>
+        </div>
+
+        <!-- title only -->
+        <div class="field inline">
+          <input type="number" name="expected_members" min="0" step="1" title="Approximate number of members or contributors expected in the first year">
+          <span class="muted">(approx. members)</span>
+        </div>
+
+        <div class="field">
+          <label for="committee_purpose">Committee Purpose <span class="req">*</span></label>
+          <textarea id="committee_purpose" name="committee_purpose" rows="4" required aria-describedby="purpose_help"></textarea>
+          <div class="help" id="purpose_help">Briefly describe the committee's purpose, including any measures or offices it intends to support or oppose.</div>
+        </div>
+
+        <fieldset class="radio-group" id="connected_fs">
+          <legend>Does the committee have a connected organization? <span class="req">*</span></legend>
+          <label><input type="radio" name="has_connected_org" value="yes" required> Yes</label>
+          <label><input type="radio" name="has_connected_org" value="no"> No</label>
+        </fieldset>
+        <div id="connectedOrgSlot"></div>
+
+        <!-- Radio group WITHOUT fieldset, plain text label -->
+        <div class="field radio-plain">
+          <div class="pseudo-label">Will the committee make contributions to federal candidates?</div>
+          <input type="radio" name="federal_activity" id="fed_yes" value="yes"> <label for="fed_yes">Yes</label>
+          <input type="radio" name="federal_activity" id="fed_no" value="no"> <label for="fed_no">No</label>
+          <input type="radio" name="federal_activity" id="fed_unsure" value="unsure"> <label for="fed_unsure">Undecided</label>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" name="accepts_corporate" id="accepts_corporate" value="1"> Committee accepts corporate or labor organization contributions</label>
+          <small>Corporate contributions may only be used for administrative expenses.</small>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn secondary" data-action="validate">Validate step</button>
+          <button type="button" class="btn" data-action="next">Next &raquo;</button>
+        </div>
+      </section>
+
+      <!-- ================= STEP 2 ================= -->
+      <section class="step" id="step2" data-step="2" hidden>
+        <h2>Part 2 &mdash; Campaign Treasurer and Officers</h2>
+        <p class="instructions">Every committee must appoint a campaign treasurer. The treasurer is responsible for filing all reports.</p>
+
+        <h3>Campaign Treasurer</h3>
+        <div class="field">
+          <label for="treasurer_name">Treasurer Full Name <span class="req">*</span></label>
+          <input type="text" id="treasurer_name" name="treasurer_name" required>
+        </div>
+
+        <!-- input wrapped inside its label -->
+        <div class="field">
+          <label>Treasurer Email <span class="req">*</span>
+            <input type="email" name="treasurer_email" required data-validate="email">
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="treasurer_phone">Treasurer Phone</label>
+          <input type="tel" id="treasurer_phone" name="treasurer_phone">
+        </div>
+
+        <!-- visual asterisk only, no required/aria-required -->
+        <div class="field">
+          <label for="treasurer_appointed">Date of Appointment <span class="req">*</span></label>
+          <input type="date" id="treasurer_appointed" name="treasurer_appointed">
+        </div>
+
+        <h3>Other Officers</h3>
+        <small class="block">List the chair and any other officers who make decisions about contributions or expenditures.</small>
+        <table class="officer-table" id="officerTable">
+          <thead>
+            <tr><th id="th_off_name">Name</th><th id="th_off_title">Title</th><th id="th_off_email">Email</th><th><span class="sr-only">Remove</span></th></tr>
+          </thead>
+          <tbody id="officerRows">
+            <tr class="officer-row">
+              <td><input type="text" name="officers[0][name]" aria-labelledby="th_off_name"></td>
+              <td><input type="text" name="officers[0][title]" aria-labelledby="th_off_title" placeholder="e.g. Chair"></td>
+              <td><input type="email" name="officers[0][email]" aria-labelledby="th_off_email" data-validate="email"></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn secondary small" id="addOfficer">+ Add another officer</button>
+
+        <div class="step-actions">
+          <button type="button" class="btn secondary" data-action="prev">&laquo; Back</button>
+          <button type="button" class="btn secondary" data-action="validate">Validate step</button>
+          <button type="button" class="btn" data-action="next">Next &raquo;</button>
+        </div>
+      </section>
+
+      <!-- ================= STEP 3 ================= -->
+      <section class="step" id="step3" data-step="3" hidden>
+        <h2>Part 3 &mdash; Depository Information</h2>
+        <p class="instructions">All committee funds must be deposited in a single campaign account at a financial institution doing business in this state.</p>
+
+        <div class="field">
+          <label for="bank_name">Depository Name <span class="req">*</span></label>
+          <input type="text" id="bank_name" name="bank_name" required>
+        </div>
+
+        <div class="field">
+          <label for="bank_holder">Account Holder <span class="req">*</span></label>
+          <input type="text" id="bank_holder" name="bank_holder" aria-required="true" aria-describedby="holder_help">
+          <div class="help" id="holder_help">Enter the name exactly as it appears on your bank account.</div>
+        </div>
+
+        <div class="field">
+          <label for="bank_routing">Routing Number <span class="req">*</span></label>
+          <input type="text" id="bank_routing" name="bank_routing" inputmode="numeric" maxlength="9" required data-validate="routing">
+          <small>9-digit ABA routing number.</small>
+        </div>
+
+        <div class="field">
+          <label for="bank_account">Account Number <span class="req">*</span></label>
+          <input type="text" id="bank_account" name="bank_account" inputmode="numeric" autocomplete="off" required>
+          <small>For Commission records only; not published.</small>
+        </div>
+
+        <div class="field">
+          <label for="bank_opened">Date Account Opened</label>
+          <input type="date" id="bank_opened" name="bank_opened">
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn secondary" data-action="prev">&laquo; Back</button>
+          <button type="button" class="btn secondary" data-action="validate">Validate step</button>
+          <button type="button" class="btn" data-action="next">Next &raquo;</button>
+        </div>
+      </section>
+
+      <!-- ================= STEP 4 (rendered by JS on first visit) ================= -->
+      <section class="step" id="step4" data-step="4" hidden></section>
+    </form>
+  </main>
+
+  <aside class="sidebar" aria-label="Commission news and links">
+    <div class="box">
+      <h2>Commission News</h2>
+      <ul>
+        <li><a href="#">July semiannual reports due July 15</a></li>
+        <li><a href="#">New contribution limits announced for 2027 cycle</a></li>
+        <li><a href="#">Scheduled maintenance: Saturday 2:00&ndash;6:00 a.m.</a></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="#">Filing Deadlines Calendar</a></li>
+        <li><a href="#">Campaign Finance Guide (PDF)</a></li>
+        <li><a href="#">Search Filed Reports</a></li>
+        <li><a href="#">Contact Filer Support</a></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>Search the Site</h2>
+      <!-- Unrelated form: scanner should NOT collect this -->
+      <form id="siteSearch" role="search" onsubmit="return false;">
+        <input type="search" name="q" aria-label="Search site" placeholder="Search...">
+        <button type="submit" class="btn small">Go</button>
+      </form>
+    </div>
+  </aside>
+</div>
+
+<footer class="portal-footer">
+  <p>Demo State Ethics Commission &middot; 123 Fictional Ave., Capital City &middot; (555) 555-0199</p>
+  <p><a href="#">Accessibility</a> | <a href="#">Privacy Policy</a> | <a href="#">Open Records</a></p>
+  <p class="muted">This portal is FICTIONAL and exists only to test form-recognition software.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
